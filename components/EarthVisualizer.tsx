@@ -45,6 +45,7 @@ export default function EarthVisualizer({ level, score }: Props) {
   useEffect(() => {
     let phi = 0;
     let globe: any;
+    let animationId: NodeJS.Timeout;
 
     if (canvasRef.current) {
       globe = createGlobe(canvasRef.current, {
@@ -61,15 +62,21 @@ export default function EarthVisualizer({ level, score }: Props) {
         markerColor: [1, 1, 1],
         glowColor: config.glowColor,
         markers: [],
-        onRender: (state) => {
-          // Rotate the globe on its axis
-          state.phi = phi;
+      } as Parameters<typeof createGlobe>[1]);
+
+      // Animate the globe rotation
+      animationId = setInterval(() => {
+        if (globe) {
           phi += 0.005;
-        },
-      });
+          globe.phi = phi;
+        }
+      }, 50);
     }
 
     return () => {
+      if (animationId) {
+        clearInterval(animationId);
+      }
       if (globe) {
         globe.destroy();
       }
