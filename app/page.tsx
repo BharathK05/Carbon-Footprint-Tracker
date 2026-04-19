@@ -158,8 +158,8 @@ export default function Home() {
                         scores.level === "low"
                           ? "linear-gradient(90deg, #00b4d8, #00e5ff)"
                           : scores.level === "medium"
-                          ? "linear-gradient(90deg, #eab308, #f97316)"
-                          : "linear-gradient(90deg, #ef4444, #dc2626)",
+                            ? "linear-gradient(90deg, #eab308, #f97316)"
+                            : "linear-gradient(90deg, #ef4444, #dc2626)",
                     }}
                     initial={{ width: "0%" }}
                     animate={{
@@ -167,8 +167,8 @@ export default function Home() {
                         scores.level === "low"
                           ? "30%"
                           : scores.level === "medium"
-                          ? "65%"
-                          : "95%",
+                            ? "65%"
+                            : "95%",
                     }}
                     transition={{ duration: 1.5, ease: "easeOut" }}
                   />
@@ -200,7 +200,7 @@ export default function Home() {
                     transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                     className="text-6xl"
                   >
-                    
+
                   </motion.div>
                   <p className="text-gray-500 text-center text-sm">
                     Your future predictions & breakdown will appear here
@@ -228,7 +228,7 @@ export default function Home() {
           <p>
             Carbon Footprint Tracker {" "}
             <span className="text-neon"></span> • Built by
-            K Bharath, D Rohan
+            K Bharath, D Rohan, Rithanya, Adithi, Niranjan, Shanmuga Sundaran
           </p>
         </motion.footer>
       </div>
