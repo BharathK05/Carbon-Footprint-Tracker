@@ -40,20 +40,23 @@ export default function Home() {
       {/* Animated background particles */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="stars-layer" />
-        {[...Array(6)].map((_, i) => (
+        {[
+          { w: 320, h: 280, l: 10, t: 15, c: "#00e5ff" },
+          { w: 250, h: 350, l: 70, t: 60, c: "#3b82f6" },
+          { w: 380, h: 200, l: 40, t: 80, c: "#8b5cf6" },
+          { w: 200, h: 300, l: 85, t: 25, c: "#00e5ff" },
+          { w: 300, h: 260, l: 25, t: 50, c: "#3b82f6" },
+          { w: 350, h: 180, l: 55, t: 5, c: "#8b5cf6" },
+        ].map((p, i) => (
           <motion.div
             key={i}
             className="absolute rounded-full opacity-20 blur-3xl"
             style={{
-              width: Math.random() * 300 + 100,
-              height: Math.random() * 300 + 100,
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              background: i % 3 === 0
-                ? "radial-gradient(circle, #39ff14, transparent)"
-                : i % 3 === 1
-                ? "radial-gradient(circle, #3b82f6, transparent)"
-                : "radial-gradient(circle, #8b5cf6, transparent)",
+              width: p.w,
+              height: p.h,
+              left: `${p.l}%`,
+              top: `${p.t}%`,
+              background: `radial-gradient(circle, ${p.c}, transparent)`,
             }}
             animate={{
               x: [0, 30, -20, 0],
