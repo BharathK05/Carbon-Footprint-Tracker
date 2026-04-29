@@ -136,22 +136,33 @@ RULES:
 Return ONLY a JSON array with exactly 5 strings:
 ["insight 1", "insight 2", "insight 3", "insight 4", "insight 5"]`;
 
-  let result;
+  const modelsToTry = [
+    "gemini-2.5-flash",
+    "gemini-2.0-flash",
+    "gemini-flash-latest",
+    "gemini-2.0-flash-lite-001",
+    "gemini-pro-latest"
+  ];
 
-  try {
-    // gemini-2.5-flash is the primary model for quick and high-quality generation
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-    result = await model.generateContent(prompt);
-  } catch (err1: any) {
-    console.log("Primary model (gemini-2.5-flash) failed:", err1?.message);
+  let result;
+  let lastError;
+
+  for (const modelName of modelsToTry) {
     try {
-      // Fallback to 2.0 flash if 2.5 flash is unavailable
-      const fallbackModel = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-      result = await fallbackModel.generateContent(prompt);
-    } catch (err2: any) {
-      console.error("All Gemini models failed:", err2);
-      throw new Error(err1?.message || "Google API models are currently unavailable.");
+      const model = genAI.getGenerativeModel({ model: modelName });
+      result = await model.generateContent(prompt);
+      break; // Success, exit loop
+    } catch (err: any) {
+      console.log(`Model (${modelName}) failed:`, err?.message);
+      lastError = err;
     }
+  }
+
+  if (!result) {
+    console.error("All Gemini fallback models failed.");
+    throw new Error(
+      lastError?.message || "Google API is currently overloaded. Please try again later."
+    );
   }
 
   try {
