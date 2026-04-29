@@ -16,8 +16,10 @@ import {
 export default function Home() {
   const [inputs, setInputs] = useState<UserInputs>({
     travel: 100,
+    travelMode: "car",
     electricity: 150,
     foodType: "veg",
+    waterUsage: 135,
   });
   const [scores, setScores] = useState<CarbonScores | null>(null);
   const [improvedTotal, setImprovedTotal] = useState(0);
@@ -132,8 +134,8 @@ export default function Home() {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.8 }}
                 >
-                  Fill in your lifestyle data and hit {" "}
-                  <span className="text-neon">Calculate </span> to see your
+                  Fill in your lifestyle data and hit{" "}
+                  <span className="text-neon">Calculate </span>to see your
                   Earth&apos;s health
                 </motion.p>
               )}
@@ -177,6 +179,20 @@ export default function Home() {
                   <span>🌱 Clean</span>
                   <span>⚠️ Moderate</span>
                   <span>🔴 Critical</span>
+                </div>
+
+                {/* Indian avg comparison */}
+                <div className="mt-3 pt-3 border-t border-white/5">
+                  <p className="text-[11px] text-gray-500">
+                    🇮🇳 Indian per-capita avg:{" "}
+                    <span className="text-gray-300 font-semibold">~1,900 kg CO₂/year</span>
+                    {" • "}Your footprint:{" "}
+                    <span className={`font-semibold ${
+                      scores.total < 1900 ? "text-emerald-400" : scores.total < 5000 ? "text-yellow-400" : "text-red-400"
+                    }`}>
+                      {scores.total.toLocaleString()} kg
+                    </span>
+                  </p>
                 </div>
               </motion.div>
             )}
@@ -226,7 +242,7 @@ export default function Home() {
           transition={{ delay: 1 }}
         >
           <p>
-            Carbon Footprint Tracker {" "}
+            Carbon Footprint Tracker{" "}
             <span className="text-neon"></span> • Built by
             K Bharath, D Rohan, Rithanya, Adithi, Niranjan, Shanmuga Sundaran
           </p>

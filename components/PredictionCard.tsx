@@ -47,6 +47,11 @@ export default function PredictionCard({ scores, improvedTotal }: Props) {
   const reduction = scores.total - improvedTotal;
   const reductionPct = scores.total > 0 ? Math.round((reduction / scores.total) * 100) : 0;
 
+  const indianAvg = 1900;
+  const vsIndianAvg = scores.total > indianAvg
+    ? `${Math.round(((scores.total - indianAvg) / indianAvg) * 100)}% above`
+    : `${Math.round(((indianAvg - scores.total) / indianAvg) * 100)}% below`;
+
   const levelConfig = {
     low: { color: "text-emerald-400", bg: "bg-emerald-400/10 border-emerald-400/30", icon: "🟢" },
     medium: { color: "text-yellow-400", bg: "bg-yellow-400/10 border-yellow-400/30", icon: "🟡" },
@@ -80,13 +85,25 @@ export default function PredictionCard({ scores, improvedTotal }: Props) {
           <span className="text-3xl">{cfg.icon}</span>
         </div>
 
+        {/* Indian avg comparison */}
+        <div className="bg-white/5 rounded-xl p-3 mb-3">
+          <p className="text-xs text-gray-400 mb-1">🇮🇳 Compared to Indian Average</p>
+          <p className="text-sm text-white font-medium">
+            Your footprint is{" "}
+            <span className={`font-bold ${scores.total > indianAvg ? "text-red-400" : "text-emerald-400"}`}>
+              {vsIndianAvg}
+            </span>{" "}
+            the Indian per-capita avg ({indianAvg.toLocaleString()} kg)
+          </p>
+        </div>
+
         {/* Equivalent comparison */}
         <div className="bg-white/5 rounded-xl p-3">
           <p className="text-xs text-gray-400 mb-1">That&apos;s equivalent to</p>
           <p className="text-sm text-white font-medium">
             Driving{" "}
             <span className={`font-bold ${cfg.color}`}>
-              {Math.round(scores.total / 0.21).toLocaleString()} km
+              {Math.round(scores.total / 0.192).toLocaleString()} km
             </span>{" "}
             by car
           </p>
@@ -111,21 +128,28 @@ export default function PredictionCard({ scores, improvedTotal }: Props) {
             value={scores.travelCO2}
             total={scores.total}
             color="bg-blue-400"
-            icon=""
+            icon="🚗"
           />
           <BreakdownBar
             label="Electricity"
             value={scores.electricityCO2}
             total={scores.total}
             color="bg-yellow-400"
-            icon=""
+            icon="⚡"
           />
           <BreakdownBar
             label="Food"
             value={scores.foodCO2}
             total={scores.total}
             color="bg-orange-400"
-            icon=""
+            icon="🍽️"
+          />
+          <BreakdownBar
+            label="Water"
+            value={scores.waterCO2}
+            total={scores.total}
+            color="bg-cyan-400"
+            icon="💧"
           />
         </div>
       </div>
